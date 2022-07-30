@@ -1,5 +1,5 @@
 script_name("AutoReport")
-script_version("5")
+script_version("6")
 local enable_autoupdate = true -- false to disable auto-update + disable sending initial telemetry (server, moonloader version, script version, samp nickname, virtual volume serial number)
 local autoupdate_loaded = false
 local Update = nil
@@ -290,7 +290,7 @@ function autoupdate(json_url, prefix, url)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage((.'» {9f7ec9}[Ловля репорта] {ffffff}: Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
                         update = false
                       end
                     end
