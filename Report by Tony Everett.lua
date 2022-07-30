@@ -1,5 +1,5 @@
 script_name("AutoReport")
-script_version("2.3")
+script_version("2.4")
 local enable_autoupdate = true -- false to disable auto-update + disable sending initial telemetry (server, moonloader version, script version, samp nickname, virtual volume serial number)
 local autoupdate_loaded = false
 local Update = nil
@@ -276,7 +276,7 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
+                sampAddChatMessage('» {9f7ec9}[Ловля репорта] {ffffff}: Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
@@ -284,13 +284,13 @@ function autoupdate(json_url, prefix, url)
                       print(string.format('» {9f7ec9}[Ловля репорта] {ffffff}: Загружено %d из %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
                       print('» {9f7ec9}[Ловля репорта] {ffffff}: Загрузка обновления завершена.')
-                      sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление завершено!'), color)
+                      sampAddChatMessage('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление завершено!')
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        sampAddChatMessage('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление прошло неудачно. Запускаю устаревшую версию..')
                         update = false
                       end
                     end
@@ -318,8 +318,8 @@ function imgui.OnDrawFrame()
     if window.v then
         imgui.SetNextWindowPos(imgui.ImVec2(imgui.GetIO().DisplaySize.x / 2, imgui.GetIO().DisplaySize.y / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
         imgui.SetNextWindowSize(imgui.ImVec2(300, 100), imgui.Cond.FirstUseEver)
-        imgui.Begin("Ловля репорта", window, imgui.WindowFlags.NoResize)
-            imgui.Text('Текущая кнопка ловли') imgui.SameLine()
+        imgui.Begin(u8"Ловля репорта", window, imgui.WindowFlags.NoResize)
+            imgui.Text(u8'Текущая кнопка ловли') imgui.SameLine()
             if imgui.HotKey("##1", cfg.bindClock, tLastKeys, 100) then
                 rkeys.changeHotKey(bind, cfg.bindClock.v)
                 JSONSave()
