@@ -1,5 +1,5 @@
 script_name("AutoReport")
-script_version("6")
+script_version("2.2")
 local enable_autoupdate = true -- false to disable auto-update + disable sending initial telemetry (server, moonloader version, script version, samp nickname, virtual volume serial number)
 local autoupdate_loaded = false
 local Update = nil
@@ -276,7 +276,7 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
+                sampAddChatMessage((prefix..'» {9f7ec9}[Ловля репорта] {ffffff}: Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
@@ -284,13 +284,13 @@ function autoupdate(json_url, prefix, url)
                       print(string.format('» {9f7ec9}[Ловля репорта] {ffffff}: Загружено %d из %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
                       print('» {9f7ec9}[Ловля репорта] {ffffff}: Загрузка обновления завершена.')
-                      sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление завершено!'), color)
+                      sampAddChatMessage((prefix..'» {9f7ec9}[Ловля репорта] {ffffff}: Обновление завершено!'), color)
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage(('» {9f7ec9}[Ловля репорта] {ffffff}: Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        sampAddChatMessage((prefix..'» {9f7ec9}[Ловля репорта] {ffffff}: Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
                         update = false
                       end
                     end
