@@ -84,7 +84,7 @@ function main()
                     sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: Проверка на сервер пройдена, вы сейчас на: {ff6a6a}"..name.."{FFFFFF}!", -1)
                     sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: Приветствую, {FFFFFF}"..sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(PLAYER_PED))).."!", -1)
 					sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: Вы успешно авторизовались как:", -1)
-					sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: У вас установлена актуальная версия скрипта: {9f7ec9}"..thisScript().version.."{ffffff}!", -1)
+					sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: {9f7ec9}Новая версия скрипта не найдена{ffffff}! {9f7ec9}У вас установлена последняя версия{ffffff}: {9f7ec9}"..thisScript().version.."{ffffff}!", -1)
                     sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: {FFFFFF}Меню настройки - {7eff39}/areport", -1)
                 end
             end
