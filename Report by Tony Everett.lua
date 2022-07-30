@@ -306,6 +306,7 @@ function autoupdate(json_url, prefix, url)
         else
           print('» {9f7ec9}[Ловля репорта] {ffffff}: v'..thisScript().version..': Не могу проверить обновление. Смиритесь или обратитесь к разработчику')
           update = false
+		  thisScript():reload()
         end
       end
     end
