@@ -1,5 +1,5 @@
 script_name("AutoReport")
-script_version("3")
+script_version("4")
 local enable_autoupdate = true -- false to disable auto-update + disable sending initial telemetry (server, moonloader version, script version, samp nickname, virtual volume serial number)
 local autoupdate_loaded = false
 local Update = nil
@@ -39,6 +39,7 @@ else
     cfg = decodeJson(a)
     f:close()
 end
+local active = false
 local tLastKeys = {}
 local window = imgui.ImBool(false)
 local spawned = false
@@ -66,6 +67,8 @@ local ips = {
     "80.66.82.200",
     "80.66.82.144"
 }
+
+
 
 function main()
     while not isSampAvailable() do wait(100) end
@@ -140,10 +143,11 @@ function main()
 					thisScript():unload()
 				return
 					thisScript():unload()
+			end
+		end
+	end
 end
-end
-end
-end
+					
                     sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: Проверка на сервер пройдена, вы сейчас на: {ff6a6a}"..name.."{FFFFFF}!", -1)
                     sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: Приветствую, {FFFFFF}"..sampGetPlayerNickname(select(2, sampGetPlayerIdByCharHandle(PLAYER_PED))).."!", -1)
 					sampAddChatMessage("» {9f7ec9}[Ловля репорта]{ffffff}: Вы успешно авторизовались как:", -1)
@@ -258,24 +262,33 @@ end
             end
         end
     while true do wait(0)
+		if isKeyJustPressed(cfg.bindClock.v[1]) and not sampIsDialogActive() and not sampIsCursorActive() then
 		active = not active
-        if isKeyJustPressed(cfg.bindClock.v[1]) and not sampIsDialogActive() and not sampIsCursorActive() then
-		sampAddChatMessage(u8'» {9f7ec9}[Ловля репорта] {ffffff}Автоматическая ловля репорта: {ff004d}'..(active and 'включена' or 'выключена'), -1)
-			if active and not sampIsDialogActive() and not sampIsCursorActive() then 
-				sampSendChat('/ot')
-				sampSendChat('/ot')
-				sampSendChat('/ot')
-				sampSendChat('/ot')
-				sampSendChat('/ot')
-				wait(620)
+		if active then
+		sampAddChatMessage('» {9f7ec9}[Ловля репорта]{ffffff}: '..(active and 'активирована' or 'отключена'), -1)
 	end
 end
         imgui.Process = window.v
         JSONSave()
+	end
+end
+
+function sampev.onServerMessage(color, text)
+	if active then
+		if  text:find("%[Репорт%] от %a+_%a+%[%d+%]:") then
+            sampAddChatMessage('» {9f7ec9}[Ловля репорта]{ffffff}: репорт пойман, кайфуем', -1)
+        end
     end
 end
 
-
+function sampev.sampIsCursorActive()
+	if not sampIsChatActive and sampIsCursorActive then
+    if active then
+        active = false
+        sampAddChatMessage('» {9f7ec9}[Ловля репорта]{ffffff}: репорт пойман, кайфуем', -1)
+		end
+	end
+end
 
 function autoupdate(json_url, prefix, url)
   local dlstatus = require('moonloader').download_status
